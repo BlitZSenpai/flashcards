@@ -19,10 +19,15 @@ dotenv.config();
 app.post("/decks", async (req: Request, res: Response) => {
   const newDeck = new DeckModel({
     title: req.body.title,
-  })
+  });
   const createdDeck = await newDeck.save();
-  res.json(createdDeck)
-})
+  res.json(createdDeck);
+});
+
+app.get("/decks", async (req: Request, res: Response) => {
+  const decks = await DeckModel.find();
+  res.json(decks);
+});
 
 app.get("/", (_, res: Response) => {
   res.send("Hello World!");
