@@ -2,12 +2,16 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import db from "./utils/db";
 import DeckModel from "./models/deck";
+import cors from "cors";
 
 
 const PORT = 5000;
 
 const app = express();
 
+app.use(cors({
+  origin: "*",
+}));
 app.use(express.json()); //allows support for json POST request
 
 dotenv.config();
