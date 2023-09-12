@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [ title, setTitle ] = useState("");
+  const [title, setTitle] = useState("");
+  const [decks, setDecks] = useState([]);
 
-  const handleCreateDeck = (e: React.FormEvent) => {
+  const handleCreateDeck = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetch("http://localhost:5000/decks", {
+    await fetch("http://localhost:5000/decks", {
       method: "POST",
       body: JSON.stringify({
         title,
@@ -18,8 +19,26 @@ function App() {
     setTitle("");
   };
 
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("http://localhost:5000/decks");
+      const newDecks = await response.json();
+      setDecks(newDecks)
+    })();
+    /* async function fetchDecks() => {
+      await fetch("http://localhost:5000/decks");
+    }
+    fetchDecks(); */
+  }, [])
+  
+
   return (
     <div>
+      <ul>
+        {decks.map((deck) => (
+          <li key={deck._id}>{deck.title}</li>
+        ))}
+      </ul>
       <form onSubmit={handleCreateDeck}>
         <label htmlFor="deck-title">Deck Title </label>
         <input value={title} type="text" id='deck-title' onChange={(e: React.ChangeEvent<HTMLInputElement>) => (setTitle(e.target.value))}  />
