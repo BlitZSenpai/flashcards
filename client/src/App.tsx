@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import { CreateDeck } from './api/createdeck';
-import { deleteDeck } from './api/deletedeck';
-import { TDecks, getDecks } from './api/getdeck';
+import { CreateDeck } from './api/createDeck';
+import { deleteDeck } from './api/deleteDeck';
+import { TDecks, getDecks } from './api/getDeck';
 
 function App() {
   const [title, setTitle] = useState("");

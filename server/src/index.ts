@@ -1,8 +1,10 @@
-import express, { Request, Response, response } from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import db from "./utils/db";
-import DeckModel from "./models/deck";
 import cors from "cors";
+import { createDeckController } from "./controllers/createdeckcontroller";
+import { getDecksController } from "./controllers/getDeckController";
+import { deleteDeckController } from "./controllers/deletedeckcontroller";
 
 const PORT = 5000;
 
@@ -17,30 +19,9 @@ app.use(express.json()); //allows support for json POST request
 
 dotenv.config();
 
-app.post("/decks", async (req: Request, res: Response) => {
-	try {
-		const newDeck = new DeckModel({
-			title: req.body.title,
-		});
-		const createdDeck = await newDeck.save();
-		return res.json(createdDeck).status(200);
-	} catch (error: unknown) {
-		return res
-			.json({ message: "Something went wrong, please try again later." })
-			.status(500);
-	}
-});
-
-app.get("/decks", async (_, res: Response) => {
-	const decks = await DeckModel.find();
-	res.json(decks);
-});
-
-app.delete("/decks/:deckId", async (req: Request, res: Response) => {
-	const deckId = req.params.deckId;
-	const deck = await DeckModel.findByIdAndDelete(deckId);
-	res.json(deck).status(200);
-});
+app.post("/decks", createDeckController);
+app.get("/decks", getDecksController);
+app.delete("/decks/:deckId", deleteDeckController);
 
 app.get("/", (_, res: Response) => {
 	res.send("Hello World!");
