@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 
+interface TDecks {
+  title: string,
+  _id: string,
+}
+
 function App() {
   const [title, setTitle] = useState("");
-  const [decks, setDecks] = useState([]);
+  const [decks, setDecks] = useState<TDecks[]>([]);
 
   const handleCreateDeck = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,8 +38,8 @@ function App() {
   
 
   return (
-    <div>
-      <ul>
+    <div className='App'>
+      <ul className='decks'>
         {decks.map((deck) => (
           <li key={deck._id}>{deck.title}</li>
         ))}
