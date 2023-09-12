@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, response } from "express";
 import dotenv from "dotenv";
 import db from "./utils/db";
 import DeckModel from "./models/deck";
@@ -24,10 +24,16 @@ app.post("/decks", async (req: Request, res: Response) => {
   res.json(createdDeck);
 });
 
-app.get("/decks", async (req: Request, res: Response) => {
+app.get("/decks", async (_, res: Response) => {
   const decks = await DeckModel.find();
   res.json(decks);
 });
+
+app.delete("/decks/:deckId", async (req: Request, res: Response) => {
+  const deckId = req.params.deckId;
+  const deck = await DeckModel.findByIdAndDelete(deckId);
+  res.json(deck);
+})
 
 app.get("/", (_, res: Response) => {
   res.send("Hello World!");
