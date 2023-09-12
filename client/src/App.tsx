@@ -22,15 +22,15 @@ function App() {
       }
     });
     const deck = await response.json();
-    setDecks([...decks, deck])
+    setDecks((decks) => [...decks, deck])
     setTitle("");
   };
 
   const handleDeleteDeck = async (deckId: string) => {
+    setDecks((decks) => decks.filter((deck) => deck._id !== deckId));
     await fetch(`http://localhost:5000/decks/${deckId}`, {
       method: "DELETE",
     });
-    setDecks(decks.filter((deck) => deck._id !== deckId));
   }
 
   useEffect(() => {
