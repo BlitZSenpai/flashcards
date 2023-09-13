@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { createCard } from "./api/card/createCard";
 import { useParams } from "react-router-dom";
+import { getDeck } from "./api/card/getDeck";
+import { TDecks } from "./api/deck/getDecks";
+import { deleteCard } from "./api/card/deleteCard";
 
 function App() {
+	const [deck, setDeck] = useState<TDecks | undefined>();
 	const [text, setText] = useState("");
 	const [cards, setCards] = useState<string[]>([]);
 	const { deckId } = useParams();
@@ -15,28 +19,28 @@ function App() {
 		setText("");
 	};
 
-	// const handleDeleteDeck = async (deckId: string) => {
-	// 	setDecks((decks) => decks.filter((deck) => deck._id !== deckId));
-	// 	await deleteDeck(deckId);
-	// };
+	const handleDeleteCard = async (index: number) => {
+		if (!deckId) return;
+		const newDeck = await deleteCard(deckId, index);
+		setCards(newDeck.cards);
+	};
 
-	// useEffect(() => {
-	// 	(async () => {
-	// 		const newDecks = await getDecks();
-	// 		setDecks(newDecks);
-	// 	})();
-	// 	/* async function fetchDecks() => {
-	//     await fetch("http://localhost:5000/decks");
-	//   }
-	//   fetchDecks(); */
-	// }, []);
+	useEffect(() => {
+		(async () => {
+			if (!deckId) return;
+			const newDeck = await getDeck(deckId);
+			setDeck(newDeck);
+			setCards(newDeck.cards);
+		})();
+	}, [deckId]);
 
 	return (
 		<div className="Deck">
+			<h1>{deck?.title}</h1>
 			<ul className="decks">
-				{cards.map((card) => (
-					<li key={card}>
-						{/* <button onClick={() => handleDeleteDeck(deck._id)}>X</button> */}
+				{cards.map((card, index) => (
+					<li key={index}>
+						<button onClick={() => handleDeleteCard(index)}>X</button>
 						{card}
 					</li>
 				))}

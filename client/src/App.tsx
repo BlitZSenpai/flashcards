@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { CreateDeck } from "./api/deck/createDeck";
 import { deleteDeck } from "./api/deck/deleteDeck";
-import { TDecks, getDecks } from "./api/deck/getDeck";
+import { TDecks, getDecks } from "./api/deck/getDecks";
 import { Link } from "react-router-dom";
 
 function App() {

@@ -1,5 +1,5 @@
 import { APP_URL } from "../config";
-import { TDecks } from "../deck/getDeck";
+import { TDecks } from "../deck/getDecks";
 
 export const createCard = async (
 	deckId: string,
