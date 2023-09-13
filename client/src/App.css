@@ -44,3 +44,11 @@
   right: 5px;
   font-size: 12px;
 }
+
+.title {
+  color: #1a1a1a;
+}
+
+.title:hover {
+  color: #1a1a1a;
+}
